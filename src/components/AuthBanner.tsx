@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
+import type { User } from '@supabase/supabase-js';
+
 
 export default function AuthBanner() {
   const [user, setUser] = useState<any>(null);
   const [email, setEmail] = useState('');
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const getUser = async () => {

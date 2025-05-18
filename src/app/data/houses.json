@@ -34,7 +34,7 @@
     "name": "House Baratheon",
     "motto": "Ours is the Fury",
     "region": "The Stormlands",
-    "seat": "Storm’s End",
+    "seat": "Storm's End",
     "colors": ["black", "gold"],
     "sigil": "/images/sigil-baratheon.webp",
     "notableMembers": ["Robert Baratheon"]

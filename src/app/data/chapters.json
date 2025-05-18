@@ -21,7 +21,7 @@
     "location": "Winterfell",
     "startTime": "00:14:31",
     "endTime": "00:31:22",
-    "summary": "Catelyn and Eddard discuss Jon Arryn’s death and King Robert's impending arrival.",
+    "summary": "Catelyn and Eddard discuss Jon Arryn's death and King Robert's impending arrival.",
     "characters": ["Catelyn Stark", "Eddard Stark"],
     "houses": ["House Stark", "House Tully"]
   },
@@ -60,7 +60,7 @@
     "location": "Winterfell",
     "startTime": "01:05:01",
     "endTime": "01:22:55",
-    "summary": "Jon speaks with Benjen Stark about joining the Night’s Watch and meets Tyrion Lannister.",
+    "summary": "Jon speaks with Benjen Stark about joining the Night's Watch and meets Tyrion Lannister.",
     "characters": ["Jon Snow", "Benjen Stark", "Tyrion Lannister"],
     "houses": ["House Stark", "House Lannister"]
   }
