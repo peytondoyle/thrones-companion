@@ -1,0 +1,42 @@
+[
+  {
+    "id": "house-stark",
+    "name": "House Stark",
+    "motto": "Winter is Coming",
+    "region": "The North",
+    "seat": "Winterfell",
+    "colors": ["gray", "white"],
+    "sigil": "/images/sigil-stark.webp",
+    "notableMembers": ["Eddard Stark", "Catelyn Stark", "Jon Snow", "Bran Stark", "Robb Stark"]
+  },
+  {
+    "id": "house-lannister",
+    "name": "House Lannister",
+    "motto": "Hear Me Roar!",
+    "region": "The Westerlands",
+    "seat": "Casterly Rock",
+    "colors": ["gold", "crimson"],
+    "sigil": "/images/sigil-lannister.webp",
+    "notableMembers": ["Tyrion Lannister", "Cersei Lannister", "Jaime Lannister"]
+  },
+  {
+    "id": "house-targaryen",
+    "name": "House Targaryen",
+    "motto": "Fire and Blood",
+    "region": "Crownlands (formerly Valyria)",
+    "seat": "Dragonstone",
+    "colors": ["black", "red"],
+    "sigil": "/images/sigil-targaryen.webp",
+    "notableMembers": ["Daenerys Targaryen", "Viserys Targaryen"]
+  },
+  {
+    "id": "house-baratheon",
+    "name": "House Baratheon",
+    "motto": "Ours is the Fury",
+    "region": "The Stormlands",
+    "seat": "Storm’s End",
+    "colors": ["black", "gold"],
+    "sigil": "/images/sigil-baratheon.webp",
+    "notableMembers": ["Robert Baratheon"]
+  }
+]

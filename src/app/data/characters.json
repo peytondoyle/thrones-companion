@@ -1,0 +1,67 @@
+[
+  {
+    "id": "jon-snow",
+    "name": "Jon Snow",
+    "aliases": ["Lord Snow", "The Bastard of Winterfell"],
+    "house": "House Stark",
+    "allegiance": "Night's Watch",
+    "location": "Winterfell",
+    "firstSeenChapter": 1,
+    "lastSeenChapter": 73,
+    "isAlive": true,
+    "isSpoilerSafe": true,
+    "description": "Eddard Stark’s illegitimate son, raised at Winterfell. Dreams of joining the Night’s Watch."
+  },
+  {
+    "id": "daenerys-targaryen",
+    "name": "Daenerys Targaryen",
+    "aliases": ["Dany", "Stormborn"],
+    "house": "House Targaryen",
+    "allegiance": "Targaryen Loyalists",
+    "location": "Pentos",
+    "firstSeenChapter": 3,
+    "lastSeenChapter": 73,
+    "isAlive": true,
+    "isSpoilerSafe": true,
+    "description": "The exiled princess of the fallen Targaryen dynasty, under her brother Viserys' control."
+  },
+  {
+    "id": "catelyn-stark",
+    "name": "Catelyn Stark",
+    "aliases": [],
+    "house": "House Tully",
+    "allegiance": "House Stark",
+    "location": "Winterfell",
+    "firstSeenChapter": 2,
+    "lastSeenChapter": 69,
+    "isAlive": true,
+    "isSpoilerSafe": true,
+    "description": "Lady of Winterfell, wife of Eddard Stark, and fiercely protective of her family."
+  },
+  {
+    "id": "bran-stark",
+    "name": "Bran Stark",
+    "aliases": [],
+    "house": "House Stark",
+    "allegiance": "House Stark",
+    "location": "Winterfell",
+    "firstSeenChapter": 1,
+    "lastSeenChapter": 73,
+    "isAlive": true,
+    "isSpoilerSafe": true,
+    "description": "Youngest son of Eddard Stark, curious and adventurous, with a love of climbing."
+  },
+  {
+    "id": "tyrion-lannister",
+    "name": "Tyrion Lannister",
+    "aliases": ["The Imp", "Halfman"],
+    "house": "House Lannister",
+    "allegiance": "House Lannister",
+    "location": "Winterfell",
+    "firstSeenChapter": 5,
+    "lastSeenChapter": 73,
+    "isAlive": true,
+    "isSpoilerSafe": true,
+    "description": "Clever and sharp-tongued dwarf of House Lannister, known for his wit and intellect."
+  }
+]
