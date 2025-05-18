@@ -1,5 +1,5 @@
+// app/PageInner.tsx
 'use client';
-export const dynamic = 'force-dynamic'; // ⛔ disables static prerender
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -11,87 +11,64 @@ import AuthBanner from '@/components/AuthBanner';
 import { supabase } from '@/lib/supabaseClient';
 import type { User } from '@supabase/supabase-js';
 
-export default function Home() {
+export default function PageInner() {
   const searchParams = useSearchParams();
   const [timestamp, setTimestamp] = useState('');
   const [currentChapter, setCurrentChapter] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
-  // Load logged-in user's progress
+  // Load user & progress
   useEffect(() => {
-    const loadUserAndProgress = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+    supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
-
       if (user) {
-        const { data, error } = await supabase
+        supabase
           .from('progress')
           .select('timestamp, chapter')
           .eq('user_id', user.id)
-          .single();
-
-        if (data && !error) {
-          setTimestamp(data.timestamp);
-          setCurrentChapter(data.chapter);
-        }
+          .single()
+          .then(({ data }) => {
+            if (data) {
+              setTimestamp(data.timestamp);
+              setCurrentChapter(data.chapter);
+            }
+          });
       }
-    };
-
-    loadUserAndProgress();
+    });
   }, []);
 
-  // Auto-sync from URL if ?timestamp=hh:mm:ss is present
+  // Auto‐sync from URL
   useEffect(() => {
     const fromUrl = searchParams.get('timestamp');
     if (fromUrl) {
       setTimestamp(fromUrl);
-
       const [h, m, s] = fromUrl.split(':').map(Number);
-      const totalSeconds = h * 3600 + m * 60 + s;
-
-      const matched = chapters.find((ch) => {
+      const total = h * 3600 + m * 60 + s;
+      const match = chapters.find((ch) => {
         const [sh, sm, ss] = ch.startTime.split(':').map(Number);
         const [eh, em, es] = ch.endTime.split(':').map(Number);
-        const start = sh * 3600 + sm * 60 + ss;
-        const end = eh * 3600 + em * 60 + es;
-        return totalSeconds >= start && totalSeconds <= end;
+        return total >= sh * 3600 + sm * 60 + ss && total <= eh * 3600 + em * 60 + es;
       });
-
-      if (matched) {
-        setCurrentChapter(matched.number);
-      }
+      if (match) setCurrentChapter(match.number);
     }
   }, [searchParams]);
 
   const handleSync = async () => {
     const [h, m, s] = timestamp.split(':').map(Number);
-    const totalSeconds = h * 3600 + m * 60 + s;
-
-    const matched = chapters.find((ch) => {
+    const total = h * 3600 + m * 60 + s;
+    const match = chapters.find((ch) => {
       const [sh, sm, ss] = ch.startTime.split(':').map(Number);
       const [eh, em, es] = ch.endTime.split(':').map(Number);
-      const start = sh * 3600 + sm * 60 + ss;
-      const end = eh * 3600 + em * 60 + es;
-      return totalSeconds >= start && totalSeconds <= end;
+      return total >= sh * 3600 + sm * 60 + ss && total <= eh * 3600 + em * 60 + es;
     });
-
-    const matchedChapter = matched?.number ?? null;
-    setCurrentChapter(matchedChapter);
-
-    if (user && matchedChapter !== null) {
-      await supabase
-        .from('progress')
-        .upsert({
-          user_id: user.id,
-          timestamp,
-          chapter: matchedChapter
-        });
+    const chap = match?.number ?? null;
+    setCurrentChapter(chap);
+    if (user && chap !== null) {
+      await supabase.from('progress').upsert({ user_id: user.id, timestamp, chapter: chap });
     }
   };
 
-  const unlockedCharacters = characters.filter(
-    (char) => currentChapter && char.firstSeenChapter <= currentChapter
-  );
+  const unlocked = characters.filter((c) => currentChapter && c.firstSeenChapter <= currentChapter);
 
   return (
     <main className="p-6 max-w-xl mx-auto">
@@ -99,7 +76,9 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-4">Thrones Companion</h1>
 
       <div className="mb-4">
-        <label className="block mb-1 font-semibold">Current Audiobook Timestamp (hh:mm:ss):</label>
+        <label className="block mb-1 font-semibold">
+          Current Audiobook Timestamp (hh:mm:ss):
+        </label>
         <input
           type="text"
           value={timestamp}
@@ -119,57 +98,64 @@ export default function Home() {
         <>
           <h2 className="text-xl font-semibold mt-6">Chapter {currentChapter}</h2>
           <ul className="list-disc ml-6 mt-2">
-            {chapters.find((ch) => ch.number === currentChapter)?.characters.map((char) => {
-              const match = characters.find((c) => c.name === char);
-              return (
-                <li key={char}>
-                  {match ? (
-                    <Link
-                      href={`/character/${match.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(timestamp)}`}
-                      className="text-blue-600 hover:underline"
-                    >
-                      {char}
-                    </Link>
-                  ) : (
-                    char
-                  )}
-                </li>
-              );
-            })}
+            {chapters
+              .find((ch) => ch.number === currentChapter)!
+              .characters.map((char) => {
+                const m = characters.find((c) => c.name === char);
+                return (
+                  <li key={char}>
+                    {m ? (
+                      <Link
+                        href={`/character/${m.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(
+                          timestamp
+                        )}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {char}
+                      </Link>
+                    ) : (
+                      char
+                    )}
+                  </li>
+                );
+              })}
           </ul>
 
           <h3 className="text-lg font-semibold mt-6">Houses in this Chapter:</h3>
           <ul className="list-disc ml-6 mt-2">
-            {chapters.find((ch) => ch.number === currentChapter)?.houses.map((house) => {
-              const match = houses.find((h) => h.name === house);
-              return (
-                <li key={house}>
-                  {match ? (
-                    <Link
-                      href={`/house/${match.id}`}
-                      className="text-green-600 hover:underline"
-                    >
-                      {house}
-                    </Link>
-                  ) : (
-                    house
-                  )}
-                </li>
-              );
-            })}
+            {chapters
+              .find((ch) => ch.number === currentChapter)!
+              .houses.map((house) => {
+                const h = houses.find((x) => x.name === house);
+                return (
+                  <li key={house}>
+                    {h ? (
+                      <Link href={`/house/${h.id}`} className="text-green-600 hover:underline">
+                        {house}
+                      </Link>
+                    ) : (
+                      house
+                    )}
+                  </li>
+                );
+              })}
           </ul>
 
-          <h3 className="text-lg font-semibold mt-6">Characters You&apos;ve Met So Far:</h3>
+          <h3 className="text-lg font-semibold mt-6">
+            Characters You&apos;ve Met So Far:
+          </h3>
           <ul className="list-disc ml-6 mt-2">
-            {unlockedCharacters.map((char) => (
-              <li key={char.name}>
+            {unlocked.map((c) => (
+              <li key={c.name}>
                 <Link
-                  href={`/character/${char.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(timestamp)}`}
+                  href={`/character/${c.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(
+                    timestamp
+                  )}`}
                   className="text-blue-600 font-semibold hover:underline"
                 >
-                  {char.name}
+                  {c.name}
                 </Link>{' '}
-                – {char.description}
+                – {c.description}
               </li>
             ))}
           </ul>
