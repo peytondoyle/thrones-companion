@@ -159,7 +159,7 @@ export default function Home() {
             })}
           </ul>
 
-          <h3 className="text-lg font-semibold mt-6">Characters You've Met So Far:</h3>
+          <h3 className="text-lg font-semibold mt-6">Characters You&apos;ve Met So Far:</h3>
           <ul className="list-disc ml-6 mt-2">
             {unlockedCharacters.map((char) => (
               <li key={char.name}>
