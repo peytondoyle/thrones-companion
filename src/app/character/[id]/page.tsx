@@ -10,9 +10,10 @@ type House = (typeof houses)[number];
 
 export default function CharacterPage() {
   const params = useParams();
-  const id = typeof params.id === 'string' ? params.id : Array.isArray(params.id) ? params.id[0] : '';
+  const id = Array.isArray(params.id) ? params.id[0] : params.id ?? '';
   const searchParams = useSearchParams();
   const currentChapter = parseInt(searchParams.get('currentChapter') || '0', 10);
+  const timestamp = searchParams.get('timestamp') || '';
 
   const [character, setCharacter] = useState<Character | null>(null);
   const [house, setHouse] = useState<House | null>(null);
@@ -55,7 +56,7 @@ export default function CharacterPage() {
       {currentChapter > 0 && (
         <div className="mt-6">
           <a
-            href={`/?timestamp=${encodeURIComponent(searchParams.get('timestamp') || '')}`}
+            href={`/?timestamp=${encodeURIComponent(timestamp)}`}
             className="text-purple-600 hover:underline"
           >
             ← Return to Chapter {currentChapter}

@@ -33,7 +33,7 @@ export default function HousePage() {
         {house.sigil && (
           <li>
             <strong>Sigil:</strong>{' '}
-            <img src={house.sigil} alt={`${house.name} sigil`} className="h-12 mt-1" />
+            <img src={house.sigil} alt={'${house.name} sigil'} className="h-12 mt-1" />
           </li>
         )}
       </ul>
