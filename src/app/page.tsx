@@ -1,4 +1,5 @@
 'use client';
+export const dynamic = 'force-dynamic'; // ⛔ disables static prerender
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -9,7 +10,6 @@ import houses from './data/houses.json';
 import AuthBanner from '@/components/AuthBanner';
 import { supabase } from '@/lib/supabaseClient';
 import type { User } from '@supabase/supabase-js';
-
 
 export default function Home() {
   const searchParams = useSearchParams();
