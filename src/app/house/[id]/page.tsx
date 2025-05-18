@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import houses from '../../data/houses.json';
-import characters from '../../data/characters.json';
 
 type House = (typeof houses)[number];
 

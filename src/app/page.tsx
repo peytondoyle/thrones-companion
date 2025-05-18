@@ -7,8 +7,9 @@ import chapters from './data/chapters.json';
 import characters from './data/characters.json';
 import houses from './data/houses.json';
 import AuthBanner from '@/components/AuthBanner';
-import type { User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabaseClient';
+import type { User } from '@supabase/supabase-js';
+
 
 export default function Home() {
   const searchParams = useSearchParams();
@@ -124,7 +125,7 @@ export default function Home() {
                 <li key={char}>
                   {match ? (
                     <Link
-                      href={`/character/${match.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(timestamp)}`}
+                      href={'/character/${match.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(timestamp)}'}
                       className="text-blue-600 hover:underline"
                     >
                       {char}
@@ -145,7 +146,7 @@ export default function Home() {
                 <li key={house}>
                   {match ? (
                     <Link
-                      href={`/house/${match.id}`}
+                      href={'/house/${match.id}'}
                       className="text-green-600 hover:underline"
                     >
                       {house}
@@ -163,7 +164,7 @@ export default function Home() {
             {unlockedCharacters.map((char) => (
               <li key={char.name}>
                 <Link
-                  href={`/character/${char.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(timestamp)}`}
+                  href={'/character/${char.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(timestamp)}'}
                   className="text-blue-600 font-semibold hover:underline"
                 >
                   {char.name}
