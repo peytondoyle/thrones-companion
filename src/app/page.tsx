@@ -7,13 +7,14 @@ import chapters from './data/chapters.json';
 import characters from './data/characters.json';
 import houses from './data/houses.json';
 import AuthBanner from '@/components/AuthBanner';
+import type { User } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function Home() {
   const searchParams = useSearchParams();
   const [timestamp, setTimestamp] = useState('');
   const [currentChapter, setCurrentChapter] = useState<number | null>(null);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   // Load logged-in user's progress
   useEffect(() => {
@@ -115,7 +116,7 @@ export default function Home() {
 
       {currentChapter && (
         <>
-          <h2 className="text-xl font-semibold mt-6">📘 Chapter {currentChapter}</h2>
+          <h2 className="text-xl font-semibold mt-6">Chapter {currentChapter}</h2>
           <ul className="list-disc ml-6 mt-2">
             {chapters.find((ch) => ch.number === currentChapter)?.characters.map((char) => {
               const match = characters.find((c) => c.name === char);
@@ -136,7 +137,7 @@ export default function Home() {
             })}
           </ul>
 
-          <h3 className="text-lg font-semibold mt-6">🏠 Houses in this Chapter:</h3>
+          <h3 className="text-lg font-semibold mt-6">Houses in this Chapter:</h3>
           <ul className="list-disc ml-6 mt-2">
             {chapters.find((ch) => ch.number === currentChapter)?.houses.map((house) => {
               const match = houses.find((h) => h.name === house);
@@ -157,7 +158,7 @@ export default function Home() {
             })}
           </ul>
 
-          <h3 className="text-lg font-semibold mt-6">🎭 Characters You've Met So Far:</h3>
+          <h3 className="text-lg font-semibold mt-6">Characters You've Met So Far:</h3>
           <ul className="list-disc ml-6 mt-2">
             {unlockedCharacters.map((char) => (
               <li key={char.name}>
