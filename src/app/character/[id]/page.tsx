@@ -40,10 +40,10 @@ export default function CharacterPage() {
       {house && (
         <p className="mb-2">
           <strong>House:</strong>{' '}
-          <a
-            href={'/house/${house.id}'}
-            className="text-green-600 hover:underline"
-          >
+            <a
+              href={`/house/${house.id}`}
+              className="text-green-600 hover:underline"
+            >
             {house.name}
           </a>
         </p>
@@ -56,7 +56,7 @@ export default function CharacterPage() {
       {currentChapter > 0 && (
         <div className="mt-6">
           <a
-            href={'/?timestamp=${encodeURIComponent(timestamp)}&currentChapter=${currentChapter}'}
+            href={`/?timestamp=${encodeURIComponent(timestamp)}&currentChapter=${currentChapter}`}
             className="text-purple-600 hover:underline"
           >
             ← Return to Chapter {currentChapter}
