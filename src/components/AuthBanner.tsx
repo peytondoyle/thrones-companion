@@ -10,36 +10,31 @@ export default function AuthBanner() {
 
   useEffect(() => {
     // 1) Fetch initial user
-    supabase.auth.getUser().then(({ data }) => {
-      setUser(data.user);
-    });
+    supabase.auth.getUser().then(({ data }) => setUser(data.user));
 
     // 2) Subscribe to auth changes
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
-    // 3) Cleanup on unmount
-    return () => {
-      listener.subscription.unsubscribe();
-    };
+    // 3) Cleanup
+    return () => listener.subscription.unsubscribe();
   }, []);
 
   const handleLogin = async () => {
-    // point back at whatever host you're on right now:
     const origin = window.location.origin;
-
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: {
-        emailRedirectTo: origin + '/',
-      },
+      options: { emailRedirectTo: origin + '/' },
     });
+    if (error) alert(error.message);
+    else alert('✨ Check your email for a magic link!');
+  };
 
-    if (error) {
-      alert(error.message);
-    } else {
-      alert('✨ Check your email for a magic link!');
+  const handleDevLogin = () => {
+    // only in dev: impersonate a test user
+    if (process.env.NODE_ENV === 'development') {
+      setUser({ id: 'dev-user-id', email: 'dev@local.dev' } as User);
     }
   };
 
@@ -65,6 +60,7 @@ export default function AuthBanner() {
         </div>
       ) : (
         <div className="flex items-center gap-2">
+          {/* Real magic-link login */}
           <input
             type="email"
             value={email}
@@ -78,8 +74,18 @@ export default function AuthBanner() {
           >
             Send Magic Link
           </button>
+
+          {/* DEV Login for local testing */}
+          {process.env.NODE_ENV === 'development' && (
+            <button
+              onClick={handleDevLogin}
+              className="bg-yellow-500 text-black px-3 py-1 rounded hover:bg-yellow-600"
+            >
+              DEV Login
+            </button>
+          )}
         </div>
       )}
     </div>
-  );
+);
 }
