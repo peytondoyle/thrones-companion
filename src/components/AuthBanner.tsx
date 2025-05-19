@@ -73,30 +73,31 @@ export default function AuthBanner() {
 
       {/* right side */}
       <div className="flex items-center gap-2 justify-end h-full min-w-[260px]">
-        {user ? (
+        {!user && (
+          <button
+            onClick={handleLogin}
+            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 whitespace-nowrap h-9"
+          >
+            Send Magic Link
+          </button>
+        )}
+
+        {!user && process.env.NODE_ENV === 'development' && (
+          <button
+            onClick={handleDevLogin}
+            className="bg-yellow-500 text-black px-3 py-1 rounded hover:bg-yellow-600 whitespace-nowrap h-9 w-[96px]"
+          >
+            DEV Login
+          </button>
+        )}
+
+        {user && (
           <button
             onClick={handleLogout}
             className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 whitespace-nowrap h-9 w-[96px]"
           >
             Log out
           </button>
-        ) : (
-          <>
-            <button
-              onClick={handleLogin}
-              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 whitespace-nowrap h-9"
-            >
-              Send Magic Link
-            </button>
-            {process.env.NODE_ENV === 'development' && (
-              <button
-                onClick={handleDevLogin}
-                className="bg-yellow-500 text-black px-3 py-1 rounded hover:bg-yellow-600 whitespace-nowrap h-9 w-[96px]"
-              >
-                DEV Login
-              </button>
-            )}
-          </>
         )}
       </div>
     </div>
