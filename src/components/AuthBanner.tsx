@@ -9,16 +9,13 @@ export default function AuthBanner() {
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    // 1) Fetch initial user
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
-
-    // 2) Subscribe to auth changes
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       setUser(session?.user ?? null);
     });
-
-    // 3) Cleanup
-    return () => listener.subscription.unsubscribe();
+    return () => {
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   const handleLogin = async () => {
@@ -27,14 +24,16 @@ export default function AuthBanner() {
       email,
       options: { emailRedirectTo: origin + '/' },
     });
-    if (error) alert(error.message);
-    else alert('✨ Check your email for a magic link!');
+    if (error) {
+      alert(error.message);
+    } else {
+      alert('✨ Check your email for a magic link!');
+    }
   };
 
   const handleDevLogin = () => {
-    // only in dev: impersonate a test user
     if (process.env.NODE_ENV === 'development') {
-      setUser({ id: 'dev-user-id', email: 'dev@local.dev' } as User);
+      setUser({ id: 'dev-user', email: 'dev@local.dev' } as User);
     }
   };
 
@@ -45,47 +44,61 @@ export default function AuthBanner() {
   };
 
   return (
-    <div className="mb-4 p-4 bg-gray-100 rounded">
-      {user ? (
-        <div className="flex justify-between items-center">
-          <p className="text-sm text-gray-700">
-            Logged in as <strong>{user.email}</strong>
-          </p>
+    <div
+      className="
+        mb-4
+        flex items-center justify-between
+        bg-gray-100 rounded
+        h-20 px-4
+      "
+    >
+      {/* left side */}
+      <div className="flex items-center gap-2 w-96 h-full">
+        {user ? (
+          <span className="text-gray-700 whitespace-nowrap flex items-center h-full">
+            Logged in as <strong className="ml-1">{user.email}</strong>
+          </span>
+        ) : (
+          <>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              className="flex-1 border px-2 py-1 rounded h-9"
+            />
+          </>
+        )}
+      </div>
+
+      {/* right side */}
+      <div className="flex items-center gap-2 justify-end h-full min-w-[260px]">
+        {user ? (
           <button
             onClick={handleLogout}
-            className="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+            className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 whitespace-nowrap h-9 w-[96px]"
           >
             Log out
           </button>
-        </div>
-      ) : (
-        <div className="flex items-center gap-2">
-          {/* Real magic-link login */}
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="border px-2 py-1 rounded"
-          />
-          <button
-            onClick={handleLogin}
-            className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-          >
-            Send Magic Link
-          </button>
-
-          {/* DEV Login for local testing */}
-          {process.env.NODE_ENV === 'development' && (
+        ) : (
+          <>
             <button
-              onClick={handleDevLogin}
-              className="bg-yellow-500 text-black px-3 py-1 rounded hover:bg-yellow-600"
+              onClick={handleLogin}
+              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 whitespace-nowrap h-9"
             >
-              DEV Login
+              Send Magic Link
             </button>
-          )}
-        </div>
-      )}
+            {process.env.NODE_ENV === 'development' && (
+              <button
+                onClick={handleDevLogin}
+                className="bg-yellow-500 text-black px-3 py-1 rounded hover:bg-yellow-600 whitespace-nowrap h-9 w-[96px]"
+              >
+                DEV Login
+              </button>
+            )}
+          </>
+        )}
+      </div>
     </div>
-);
+  );
 }
