@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabaseClient';
+// import { supabase } from '@/lib/supabaseClient';
 import characters from '../../data/characters.json';
 import houses from '../../data/houses.json';
 import chapters from '../../data/chapters.json';
 import metadata from '../../data/chaptersMetadata.json';
-import type { User } from '@supabase/supabase-js';
+// import type { User } from '@supabase/supabase-js';
 
 // Types for our JSON imports
 type Character = (typeof characters)[number];
