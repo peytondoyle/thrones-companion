@@ -11,7 +11,7 @@ import AuthBanner from '@/components/AuthBanner';
 import { supabase } from '@/lib/supabaseClient';
 import type { User } from '@supabase/supabase-js';
 
-type Chapter = (typeof chapters)[number];
+// type Chapter = (typeof chapters)[number];
 type Meta = (typeof metadata)[number];
 
 export default function PageInner() {
