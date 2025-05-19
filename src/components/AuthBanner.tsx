@@ -4,30 +4,43 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import type { User } from '@supabase/supabase-js';
 
-
 export default function AuthBanner() {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser();
+    // 1) Fetch initial user
+    supabase.auth.getUser().then(({ data }) => {
       setUser(data.user);
-    };
+    });
 
-    getUser();
-
-    supabase.auth.onAuthStateChange((_event, session) => {
+    // 2) Subscribe to auth changes
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
+
+    // 3) Cleanup on unmount
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   const handleLogin = async () => {
+    // point back at whatever host you're on right now:
+    const origin = window.location.origin;
+
     const { error } = await supabase.auth.signInWithOtp({
-      email
+      email,
+      options: {
+        emailRedirectTo: origin + '/',
+      },
     });
-    if (error) alert(error.message);
-    else alert('Check your email for a magic link!');
+
+    if (error) {
+      alert(error.message);
+    } else {
+      alert('✨ Check your email for a magic link!');
+    }
   };
 
   const handleLogout = async () => {
