@@ -1,15 +1,18 @@
-// app/PageInner.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import chapters from './data/chapters.json';
+import metadata from './data/chaptersMetadata.json';
 import characters from './data/characters.json';
 import houses from './data/houses.json';
 import AuthBanner from '@/components/AuthBanner';
 import { supabase } from '@/lib/supabaseClient';
 import type { User } from '@supabase/supabase-js';
+
+type Chapter = (typeof chapters)[number];
+type Meta = (typeof metadata)[number];
 
 export default function PageInner() {
   const searchParams = useSearchParams();
@@ -17,7 +20,13 @@ export default function PageInner() {
   const [currentChapter, setCurrentChapter] = useState<number | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
-  // Load user & progress
+  // Enrich chapters with metadata, including the numeric chapter
+  const enriched = chapters.map((ch) => ({
+    ...ch,
+    ...(metadata.find((m) => m.id === ch.id) || {}) as Omit<Meta, 'id'>,
+  }));
+
+  // Load user & saved progress
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {
       setUser(user);
@@ -37,44 +46,58 @@ export default function PageInner() {
     });
   }, []);
 
-  // Auto‐sync from URL
+  // Auto‐sync from ?timestamp=...
   useEffect(() => {
     const fromUrl = searchParams.get('timestamp');
     if (fromUrl) {
       setTimestamp(fromUrl);
-      const [h, m, s] = fromUrl.split(':').map(Number);
-      const total = h * 3600 + m * 60 + s;
-      const match = chapters.find((ch) => {
-        const [sh, sm, ss] = ch.startTime.split(':').map(Number);
-        const [eh, em, es] = ch.endTime.split(':').map(Number);
-        return total >= sh * 3600 + sm * 60 + ss && total <= eh * 3600 + em * 60 + es;
-      });
-      if (match) setCurrentChapter(match.number);
+      const matched = findChapterByTimestamp(fromUrl);
+      if (matched) setCurrentChapter(matched.number);
     }
   }, [searchParams]);
 
-  const handleSync = async () => {
-    const [h, m, s] = timestamp.split(':').map(Number);
+  // find helper
+  const findChapterByTimestamp = (time: string) => {
+    const [h, m, s] = time.split(':').map(Number);
     const total = h * 3600 + m * 60 + s;
-    const match = chapters.find((ch) => {
+    return enriched.find((ch) => {
       const [sh, sm, ss] = ch.startTime.split(':').map(Number);
       const [eh, em, es] = ch.endTime.split(':').map(Number);
-      return total >= sh * 3600 + sm * 60 + ss && total <= eh * 3600 + em * 60 + es;
+      const start = sh * 3600 + sm * 60 + ss;
+      const end = eh * 3600 + em * 60 + es;
+      return total >= start && total <= end;
     });
-    const chap = match?.number ?? null;
+  };
+
+  // Sync button
+  const handleSync = async () => {
+    const matched = findChapterByTimestamp(timestamp);
+    const chap = matched?.number ?? null;
     setCurrentChapter(chap);
     if (user && chap !== null) {
-      await supabase.from('progress').upsert({ user_id: user.id, timestamp, chapter: chap });
+      await supabase
+        .from('progress')
+        .upsert({ user_id: user.id, timestamp, chapter: chap });
     }
   };
 
-  const unlocked = characters.filter((c) => currentChapter && c.firstSeenChapter <= currentChapter);
+  // unlocked characters so far
+  const unlocked = characters.filter(
+    (c) => currentChapter !== null && c.firstSeenChapter <= currentChapter
+  );
+
+  // active chapter
+  const active = currentChapter
+    ? enriched.find((ch) => ch.number === currentChapter)
+    : null;
 
   return (
     <main className="p-6 max-w-xl mx-auto">
       <AuthBanner />
+
       <h1 className="text-3xl font-bold mb-4">Thrones Companion</h1>
 
+      {/* Timestamp input */}
       <div className="mb-4">
         <label className="block mb-1 font-semibold">
           Current Audiobook Timestamp (hh:mm:ss):
@@ -94,59 +117,52 @@ export default function PageInner() {
         </button>
       </div>
 
-      {currentChapter && (
+      {/* Active chapter display */}
+      {active && (
         <>
-          <h2 className="text-xl font-semibold mt-6">Chapter {currentChapter}</h2>
-          <ul className="list-disc ml-6 mt-2">
-            {chapters
-              .find((ch) => ch.number === currentChapter)!
-              .characters.map((char) => {
-                const m = characters.find((c) => c.name === char);
-                return (
-                  <li key={char}>
-                    {m ? (
-                      <Link
-                        href={`/character/${m.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(
-                          timestamp
-                        )}`}
-                        className="text-blue-600 hover:underline"
-                      >
-                        {char}
-                      </Link>
-                    ) : (
-                      char
-                    )}
-                  </li>
-                );
-              })}
-          </ul>
+          <h2 className="text-xl font-semibold mt-6">{active.title}</h2>
+          {active.location && (
+            <p className="text-sm italic text-gray-600 mb-2">{active.location}</p>
+          )}
+          {active.summary && <p className="mb-4">{active.summary}</p>}
 
-          <h3 className="text-lg font-semibold mt-6">Houses in this Chapter:</h3>
-          <ul className="list-disc ml-6 mt-2">
-            {chapters
-              .find((ch) => ch.number === currentChapter)!
-              .houses.map((house) => {
-                const h = houses.find((x) => x.name === house);
-                return (
-                  <li key={house}>
-                    {h ? (
-                      <Link href={`/house/${h.id}`} className="text-green-600 hover:underline">
-                        {house}
-                      </Link>
-                    ) : (
-                      house
-                    )}
-                  </li>
-                );
-              })}
-          </ul>
+          {active.pov && (
+            <>
+              <h3 className="text-lg font-semibold mt-4">POV Character:</h3>
+              <ul className="list-disc ml-6 mt-2">
+                <li>{active.pov}</li>
+              </ul>
+            </>
+          )}
+
+          {active.houses?.length ? (
+            <>
+              <h3 className="text-lg font-semibold mt-6">Houses in this Chapter:</h3>
+              <ul className="list-disc ml-6 mt-2">
+                {active.houses.map((houseName) => {
+                  const h = houses.find((x) => x.name === houseName);
+                  return (
+                    <li key={houseName}>
+                      {h ? (
+                        <Link href={`/house/${h.id}`} className="text-green-600 hover:underline">
+                          {houseName}
+                        </Link>
+                      ) : (
+                        houseName
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          ) : null}
 
           <h3 className="text-lg font-semibold mt-6">
             Characters You&apos;ve Met So Far:
           </h3>
           <ul className="list-disc ml-6 mt-2">
             {unlocked.map((c) => (
-              <li key={c.name}>
+              <li key={c.id}>
                 <Link
                   href={`/character/${c.id}?currentChapter=${currentChapter}&timestamp=${encodeURIComponent(
                     timestamp

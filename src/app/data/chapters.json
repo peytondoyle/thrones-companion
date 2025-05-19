@@ -1,67 +1,82 @@
 [
   {
-    "id": "bran-i",
+    "id": "chapter-1",
     "number": 1,
+    "title": "Prologue",
+    "book": "A Game of Thrones",
+    "startTime": "0:00:00",
+    "endTime": "0:00:18"
+  },
+  {
+    "id": "chapter-2",
+    "number": 2,
     "title": "Bran I",
     "book": "A Game of Thrones",
-    "pov": "Bran Stark",
-    "location": "The Kingsroad (near Winterfell)",
-    "startTime": "00:00:00",
-    "endTime": "00:14:30",
-    "summary": "Bran attends his first execution and discovers direwolf pups with his siblings.",
-    "characters": ["Bran Stark", "Eddard Stark", "Jon Snow", "Robb Stark", "Theon Greyjoy"],
-    "houses": ["House Stark", "House Greyjoy"]
+    "startTime": "0:00:18",
+    "endTime": "0:25:04"
   },
   {
-    "id": "catelyn-i",
-    "number": 2,
+    "id": "chapter-3",
+    "number": 3,
     "title": "Catelyn I",
     "book": "A Game of Thrones",
-    "pov": "Catelyn Stark",
-    "location": "Winterfell",
-    "startTime": "00:14:31",
-    "endTime": "00:31:22",
-    "summary": "Catelyn and Eddard discuss Jon Arryn's death and King Robert's impending arrival.",
-    "characters": ["Catelyn Stark", "Eddard Stark"],
-    "houses": ["House Stark", "House Tully"]
+    "startTime": "0:25:04",
+    "endTime": "0:44:13"
   },
   {
-    "id": "daenerys-i",
-    "number": 3,
+    "id": "chapter-4",
+    "number": 4,
     "title": "Daenerys I",
     "book": "A Game of Thrones",
-    "pov": "Daenerys Targaryen",
-    "location": "Pentos",
-    "startTime": "00:31:23",
-    "endTime": "00:47:10",
-    "summary": "Daenerys is introduced and prepares for her arranged marriage to Khal Drogo.",
-    "characters": ["Daenerys Targaryen", "Viserys Targaryen", "Illyrio Mopatis"],
-    "houses": ["House Targaryen"]
+    "startTime": "0:44:13",
+    "endTime": "0:57:28"
   },
   {
-    "id": "eddard-i",
-    "number": 4,
+    "id": "chapter-5",
+    "number": 5,
     "title": "Eddard I",
     "book": "A Game of Thrones",
-    "pov": "Eddard Stark",
-    "location": "Winterfell",
-    "startTime": "00:47:11",
-    "endTime": "01:05:00",
-    "summary": "King Robert arrives in Winterfell and invites Eddard to be the new Hand.",
-    "characters": ["Eddard Stark", "Robert Baratheon", "Cersei Lannister", "Jaime Lannister", "Bran Stark"],
-    "houses": ["House Stark", "House Baratheon", "House Lannister"]
+    "startTime": "0:57:28",
+    "endTime": "1:25:07"
   },
   {
-    "id": "jon-i",
-    "number": 5,
+    "id": "chapter-6",
+    "number": 6,
     "title": "Jon I",
     "book": "A Game of Thrones",
-    "pov": "Jon Snow",
-    "location": "Winterfell",
-    "startTime": "01:05:01",
-    "endTime": "01:22:55",
-    "summary": "Jon speaks with Benjen Stark about joining the Night's Watch and meets Tyrion Lannister.",
-    "characters": ["Jon Snow", "Benjen Stark", "Tyrion Lannister"],
-    "houses": ["House Stark", "House Lannister"]
+    "startTime": "1:25:07",
+    "endTime": "1:49:39"
+  },
+  {
+    "id": "chapter-7",
+    "number": 7,
+    "title": "Catelyn II",
+    "book": "A Game of Thrones",
+    "startTime": "1:49:39",
+    "endTime": "2:10:05"
+  },
+  {
+    "id": "chapter-8",
+    "number": 8,
+    "title": "Arya I",
+    "book": "A Game of Thrones",
+    "startTime": "2:10:05",
+    "endTime": "2:32:53"
+  },
+  {
+    "id": "chapter-9",
+    "number": 9,
+    "title": "Bran II",
+    "book": "A Game of Thrones",
+    "startTime": "2:32:53",
+    "endTime": "2:50:19"
+  },
+  {
+    "id": "chapter-10",
+    "number": 10,
+    "title": "Tyrion I",
+    "book": "A Game of Thrones",
+    "startTime": "2:50:19",
+    "endTime": "3:13:38"
   }
 ]

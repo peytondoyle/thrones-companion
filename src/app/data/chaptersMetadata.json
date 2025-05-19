@@ -1,0 +1,169 @@
+[
+  {
+    "id": "chapter-1",
+    "pov": "Will",
+    "location": "Beyond the Wall",
+    "summary": "Three Night's Watch rangers venture beyond the Wall and encounter the White Walkers.",
+    "characters": [
+      "Will",
+      "Gared",
+      "Ser Waymar Royce",
+      "White Walkers"
+    ],
+    "houses": [
+      "Night's Watch"
+    ]
+  },
+  {
+    "id": "chapter-2",
+    "pov": "Bran Stark",
+    "location": "The Kingsroad (near Winterfell)",
+    "summary": "Bran witnesses an execution and discovers direwolf pups with his siblings.",
+    "characters": [
+      "Bran Stark",
+      "Eddard Stark",
+      "Jon Snow",
+      "Robb Stark",
+      "Theon Greyjoy"
+    ],
+    "houses": [
+      "House Stark",
+      "House Greyjoy"
+    ]
+  },
+  {
+    "id": "chapter-3",
+    "pov": "Catelyn Stark",
+    "location": "Winterfell",
+    "summary": "Catelyn and Eddard discuss Jon Arryn\u2019s death and King Robert\u2019s visit.",
+    "characters": [
+      "Catelyn Stark",
+      "Eddard Stark"
+    ],
+    "houses": [
+      "House Stark",
+      "House Tully"
+    ]
+  },
+  {
+    "id": "chapter-4",
+    "pov": "Daenerys Targaryen",
+    "location": "Pentos",
+    "summary": "Daenerys prepares for her marriage to Khal Drogo, orchestrated by her brother Viserys.",
+    "characters": [
+      "Daenerys Targaryen",
+      "Viserys Targaryen",
+      "Illyrio Mopatis"
+    ],
+    "houses": [
+      "House Targaryen"
+    ]
+  },
+  {
+    "id": "chapter-5",
+    "pov": "Eddard Stark",
+    "location": "Winterfell",
+    "summary": "King Robert arrives and invites Eddard to become Hand of the King.",
+    "characters": [
+      "Eddard Stark",
+      "Robert Baratheon",
+      "Cersei Lannister",
+      "Jaime Lannister",
+      "Bran Stark"
+    ],
+    "houses": [
+      "House Stark",
+      "House Baratheon",
+      "House Lannister"
+    ]
+  },
+  {
+    "id": "chapter-6",
+    "pov": "Jon Snow",
+    "location": "Winterfell",
+    "summary": "Jon discusses joining the Night\u2019s Watch with Benjen Stark and meets Tyrion Lannister.",
+    "characters": [
+      "Jon Snow",
+      "Benjen Stark",
+      "Tyrion Lannister"
+    ],
+    "houses": [
+      "House Stark",
+      "House Lannister"
+    ]
+  },
+  {
+    "id": "chapter-7",
+    "pov": "Catelyn Stark",
+    "location": "Winterfell",
+    "summary": "Bran falls and lies in a coma. Catelyn remains at his side as an assassin attempts to kill him.",
+    "characters": [
+      "Catelyn Stark",
+      "Bran Stark",
+      "Robb Stark",
+      "Jon Snow",
+      "Theon Greyjoy",
+      "Maester Luwin",
+      "Ser Rodrik Cassel",
+      "Jaime Lannister",
+      "Cersei Lannister"
+    ],
+    "houses": [
+      "House Stark",
+      "House Lannister",
+      "House Greyjoy"
+    ]
+  },
+  {
+    "id": "chapter-8",
+    "pov": "Arya Stark",
+    "location": "Winterfell",
+    "summary": "Arya practices swordplay, leading to a confrontation between Joffrey and Mycah.",
+    "characters": [
+      "Arya Stark",
+      "Sansa Stark",
+      "Joffrey Baratheon",
+      "Mycah",
+      "Sandor Clegane",
+      "Nymeria",
+      "Lady"
+    ],
+    "houses": [
+      "House Stark",
+      "House Baratheon",
+      "House Clegane"
+    ]
+  },
+  {
+    "id": "chapter-9",
+    "pov": "Bran Stark",
+    "location": "Winterfell",
+    "summary": "Bran wakes from his coma with no memory of his fall and learns he will never walk again.",
+    "characters": [
+      "Bran Stark",
+      "Robb Stark",
+      "Maester Luwin",
+      "Hodor",
+      "Old Nan"
+    ],
+    "houses": [
+      "House Stark"
+    ]
+  },
+  {
+    "id": "chapter-10",
+    "pov": "Tyrion Lannister",
+    "location": "Winterfell",
+    "summary": "Tyrion reads in the library and advises Jon Snow on embracing his identity.",
+    "characters": [
+      "Tyrion Lannister",
+      "Jon Snow",
+      "Robb Stark",
+      "Eddard Stark"
+    ],
+    "houses": [
+      "House Lannister",
+      "House Stark"
+    ]
+  }
+]
